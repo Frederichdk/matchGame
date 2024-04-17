@@ -30,6 +30,15 @@ export const GameBoard = () => {
     ],
   ]);
 
+  const handlePress = (rowIndex, columnIndex, name) => {
+    const newCards = [...cards];
+    newCards[rowIndex][columnIndex].isFlipped =
+      !newCards[rowIndex][columnIndex].isFlipped;
+    setCards(newCards);
+    // here i want to check if the two cards are the same, if they are the same i want to keep them flipped
+    // if they are not the same i want to flip them back, how can i do that?
+  };
+
   return (
     <View style={styles.container}>
       {cards.map((row, rowIndex) => (
@@ -39,7 +48,7 @@ export const GameBoard = () => {
               key={columnIndex}
               value={card.name}
               isFlipped={card.isFlipped}
-              // onPress={() => handlePress(rowIndex, columnIndex, card.name)}
+              onPress={() => handlePress(rowIndex, columnIndex, card.name)}
             />
           ))}
         </View>

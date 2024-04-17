@@ -3,18 +3,9 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import blackCardBack from "./blackCardBack.jpg";
 
 export const Card = ({ value, isFlipped, onPress }) => {
-  const [flipped, setFlipped] = useState(isFlipped);
-
-  const handlePress = () => {
-    setFlipped(!flipped);
-    if (onPress) {
-      onPress();
-    }
-  };
-
   return (
-    <TouchableOpacity style={styles.card} onPress={handlePress}>
-      {flipped ? (
+    <TouchableOpacity style={styles.card} onPress={onPress}>
+      {isFlipped ? (
         <Text style={styles.text}>{value}</Text>
       ) : (
         <Image source={blackCardBack} style={styles.image} />

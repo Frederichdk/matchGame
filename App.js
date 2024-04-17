@@ -2,9 +2,23 @@ import * as React from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { GameBoard } from "./src/components/GameBoard";
 import Constants from "expo-constants";
+import { TouchableOpacity } from "react-native";
 
 export default function App() {
   const [score, setScore] = React.useState(0);
+  // function reset() {
+  //   setScore(0);
+
+  //   const copyOfCards = [...cards];
+  //   for (let i = 0; i < copyOfCards.length; i++) {
+  //     for (let j = 0; j < copyOfCards[i].length; j++) {
+  //       copyOfCards[i][j].isFlipped = false;
+  //     }
+  //   }
+  //   setCards(copyOfCards);
+  //   randomizeCards();
+  // }
+
   return (
     <View style={styles.container}>
       <View style={styles.lableBackground}>
@@ -21,6 +35,9 @@ export default function App() {
       <GameBoard setScore={setScore} />
       <View style={styles.lableBackground}>
         <Text style={styles.Text}>Score: {score}</Text>
+        {/*<TouchableOpacity style={styles.resetButton} onPress={}>
+          <Text>Reset</Text>
+  </TouchableOpacity>*/}
       </View>
     </View>
   );

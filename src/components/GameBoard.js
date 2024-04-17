@@ -2,42 +2,82 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Card } from "./Card";
 
-export const GameBoard = () => {
+export const GameBoard = ({ setScore }) => {
+  const [firstCard, setFirstCard] = React.useState({ row: -1, col: -1 });
   const [cards, setCards] = useState([
     [
-      { name: "Mom", isFlipped: false },
-      { name: "Dad", isFlipped: false },
-      { name: "Opa1", isFlipped: false },
-      { name: "Mimi", isFlipped: false },
+      { name: "Jou", isFlipped: false },
+      { name: "Dagga", isFlipped: false },
+      { name: "Pret", isFlipped: false },
+      { name: "Jou", isFlipped: false },
     ],
     [
-      { name: "Mom", isFlipped: false },
-      { name: "Dad", isFlipped: false },
-      { name: "Opa2", isFlipped: false },
-      { name: "Mimi", isFlipped: false },
-    ],
-    [
-      { name: "Mom", isFlipped: false },
-      { name: "Dad", isFlipped: false },
-      { name: "Opa3", isFlipped: false },
-      { name: "Mimi", isFlipped: false },
-    ],
-    [
-      { name: "Mom", isFlipped: false },
-      { name: "Dad", isFlipped: false },
+      { name: "Ma", isFlipped: false },
+      { name: "Poes", isFlipped: false },
+      { name: "Rook", isFlipped: false },
       { name: "Opa", isFlipped: false },
-      { name: "Mimi", isFlipped: false },
+    ],
+    [
+      { name: "Se", isFlipped: false },
+      { name: "Pret", isFlipped: false },
+      { name: "Opa", isFlipped: false },
+      { name: "Ma", isFlipped: false },
+    ],
+    [
+      { name: "Poes", isFlipped: false },
+      { name: "Dagga", isFlipped: false },
+      { name: "Se", isFlipped: false },
+      { name: "Rook", isFlipped: false },
     ],
   ]);
-
-  const handlePress = (rowIndex, columnIndex, name) => {
-    const newCards = [...cards];
-    newCards[rowIndex][columnIndex].isFlipped =
-      !newCards[rowIndex][columnIndex].isFlipped;
-    setCards(newCards);
-    // here i want to check if the two cards are the same, if they are the same i want to keep them flipped
-    // if they are not the same i want to flip them back, how can i do that?
+  const randomizeCards = () => {
+    const copyOfCards = [...cards];
+    for (let i = copyOfCards.length - 1; i > 0; i--) {
+      for (let j = copyOfCards[i].length - 1; j > 0; j--) {
+        const randomRowIndex = Math.floor(Math.random() * (i + 1));
+        const randomColIndex = Math.floor(Math.random() * (j + 1));
+        [copyOfCards[i][j], copyOfCards[randomRowIndex][randomColIndex]] = [
+          copyOfCards[randomRowIndex][randomColIndex],
+          copyOfCards[i][j],
+        ];
+      }
+    }
+    setCards(copyOfCards);
   };
+
+  React.useEffect(() => {
+    randomizeCards();
+  }, []);
+
+  function handlePress(row, col) {
+    const copyOfCards = [...cards];
+    const selectedCard = copyOfCards[row][col];
+
+    if (!selectedCard.isFlipped) {
+      selectedCard.isFlipped = true;
+
+      if (firstCard.row === -1 && firstCard.col === -1) {
+        setFirstCard({ row, col });
+      } else {
+        const firstSelectedCard = copyOfCards[firstCard.row][firstCard.col];
+
+        if (selectedCard.name === firstSelectedCard.name) {
+          setScore((prevScore) => prevScore + 2);
+          setCards(copyOfCards);
+        } else {
+          setScore((prevScore) => prevScore - 1);
+
+          setTimeout(() => {
+            selectedCard.isFlipped = false;
+            firstSelectedCard.isFlipped = false;
+            setCards(copyOfCards);
+          }, 500);
+        }
+
+        setFirstCard({ row: -1, col: -1 });
+      }
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -48,7 +88,7 @@ export const GameBoard = () => {
               key={columnIndex}
               value={card.name}
               isFlipped={card.isFlipped}
-              onPress={() => handlePress(rowIndex, columnIndex, card.name)}
+              onPress={() => handlePress(rowIndex, columnIndex)}
             />
           ))}
         </View>

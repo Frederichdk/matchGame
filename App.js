@@ -4,6 +4,7 @@ import { GameBoard } from "./src/components/GameBoard";
 import Constants from "expo-constants";
 
 export default function App() {
+  const [score, setScore] = React.useState(0);
   return (
     <View style={styles.container}>
       <View style={styles.lableBackground}>
@@ -17,9 +18,9 @@ export default function App() {
           +2 points for correct, -1 for wrong
         </Text>
       </View>
-      <GameBoard />
+      <GameBoard setScore={setScore} />
       <View style={styles.lableBackground}>
-        <Text style={styles.Text}>Score Zone</Text>
+        <Text style={styles.Text}>Score: {score}</Text>
       </View>
     </View>
   );

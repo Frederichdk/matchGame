@@ -30,9 +30,6 @@ A **React Native** card matching game where players flip cards to find matching 
    - Press `i` for iOS emulator (Mac only).  
    - Press `a` for Android emulator.  
 
-## 📸 Screenshots  
-_Add screenshots or a demo GIF here for visual appeal._  
-
 ## 🔥 How to Play  
 1. Click on a card to flip it.  
 2. Try to match identical cards.  
